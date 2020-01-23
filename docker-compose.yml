@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  crowi:
+    build: .
+    image: crowi:1.6.2
+    links:
+      - mongo:db
+      - redis:redis
+      - elasticsearch:es
+    ports:
+      - 3000:3000
+    environment:
+      - SECRET_TOKEN=TOKEN_STRING
+      - PASSWORD_SEED=SEED_STRING
+      - FILE_UPLOAD=aws
+      - PLANTUML_URI=http://ec2-34-211-174-71.us-west-2.compute.amazonaws.com:18080
+      - MATHJAX=1
+
+  mongo:
+    image: mongo
+
+  redis:
+    image: redis:alpine
+
+  elasticsearch:
+    image: bakudankun/elasticsearch-crowi
+
+  plantuml:
+    image: plantuml/plantuml-server:latest
+    ports:
+      - 18080:8080
+
